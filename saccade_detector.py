@@ -3,7 +3,7 @@ import copy
 
 import numpy as np
 
-from sp_tool import util
+from sp_tool.util import calculate_ppd
 from sp_tool.arff_helper import ArffHelper
 
 
@@ -107,7 +107,7 @@ class SaccadeDetector(object):
         time_shifts[time_shifts == 0] += 1
 
         velocities = shifts / time_shifts  # pixels per microsecond
-        ppd = util.calculate_ppd(gaze_points)
+        ppd = calculate_ppd(gaze_points)
         velocities /= ppd  # degree per microsecond
         velocities *= 1e6  # degree per second
 

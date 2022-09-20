@@ -3,7 +3,7 @@ import math
 
 import numpy as np
 
-import util
+from sp_tool.util import calculate_ppd, get_xy_moving_average
 from sp_tool.arff_helper import ArffHelper
 
 
@@ -96,7 +96,7 @@ class FixationDetector(object):
         # I. First step of fixation removal: rough prefiltering
         #
         # Convert constants to pixels per second
-        ppd = util.calculate_ppd(gaze_points)
+        ppd = calculate_ppd(gaze_points)
         speed_thd = ppd * self.SPEED_THRESHOLD_DEGREES_PER_SEC
         prefiltering_spread_thd = ppd * self.PREFILTERING_INTERVAL_SPREAD_THRESHOLD_DEGREES
 
@@ -128,7 +128,7 @@ class FixationDetector(object):
             onset_index = None
 
             intersacc_interval = gaze_points['data'][interval_mask]
-            intersacc_interval = util.get_xy_moving_average(intersacc_interval,
+            intersacc_interval = get_xy_moving_average(intersacc_interval,
                                                             self.NORMALIZATION_SLIDING_WINDOW_SIZE_SAMPLES,
                                                             inplace=False)
 

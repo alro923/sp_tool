@@ -7,7 +7,7 @@ from sp_tool import data_loaders
 from sp_tool.saccade_detector import SaccadeDetector
 from sp_tool.blink_detector import BlinkDetector
 from sp_tool.fixation_detector import FixationDetector
-from sp_tool import util
+from sp_tool.util import add_eye_movement_attribute, calculate_ppd, update_progress
 
 EM_TYPE_ATTRIBUTE_NAME = 'EYE_MOVEMENT_TYPE'
 EM_TYPE_ARFF_DATA_TYPE = ['UNKNOWN', 'FIX', 'SACCADE', 'SP', 'NOISE', 'BLINK', 'NOISE_CLUSTER', 'PSO']
@@ -115,7 +115,7 @@ class RecordingProcessor:
 
         gaze_points = self._format_loaders[data_format.upper()](fname, **additional_args)
         gaze_points['metadata']['filename'] = fname
-        util.add_eye_movement_attribute(gaze_points)
+        add_eye_movement_attribute(gaze_points)
 
         if not data_format.startswith('labelled'):
             # mark saccades and at the same time label saccadic intervals and intersaccadic intervals
@@ -205,7 +205,7 @@ class RecordingProcessor:
             # store into res
             res.append(gaze_points)
             if verbose:
-                util.update_progress((i + 1, len(fnames)))
+                update_progress((i + 1, len(fnames)))
         print(file=sys.stderr)
         if validate_ppd:
             RecordingProcessor.validate_ppd_of_multiple_recordings(res)
@@ -225,7 +225,7 @@ class RecordingProcessor:
         """
         ppds = []
         for i in range(len(gaze_points_list)):
-            one_value = util.calculate_ppd(gaze_points_list[i])
+            one_value = calculate_ppd(gaze_points_list[i])
             ppds.append(round(one_value, 2))  # round to 2 decimals to avoid machine precision issues
         if len(ppds) == 0:
             raise ValueError('Empty list of recordings provided')

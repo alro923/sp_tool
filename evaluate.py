@@ -12,8 +12,7 @@ from sklearn.metrics import cohen_kappa_score
 from jellyfish import levenshtein_distance
 
 from sp_tool.data_loaders import EM_VALUE_MAPPING_DEFAULT
-from sp_tool import util
-
+from sp_tool.util import calculate_ppd
 
 class Event(object):
     def __init__(self, event_type, start, end, duration):
@@ -325,7 +324,7 @@ def evaluate_basic_statistics(true_labels_list,
     """
     amplitude_key = 'amplitude_deg'
     try:
-        _ = util.calculate_ppd(true_labels_list[0], skip_consistency_check=True)
+        _ = calculate_ppd(true_labels_list[0], skip_consistency_check=True)
     except:
         amplitude_key = 'amplitude_px'
 
@@ -374,7 +373,7 @@ def evaluate_basic_statistics(true_labels_list,
                                                     * 1e-3  # convert time units to microsec, then to ms
                                                     for e in evaluated_events]
                 if amplitude_key.endswith('deg'):
-                    ppd = util.calculate_ppd(ground_truth, skip_consistency_check=True)
+                    ppd = calculate_ppd(ground_truth, skip_consistency_check=True)
                 else:
                     ppd = 1.0
 

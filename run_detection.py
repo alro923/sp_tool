@@ -16,7 +16,7 @@ from sp_tool.fixation_detector import FixationDetector
 from sp_tool.recording_processor import RecordingProcessor
 from sp_tool.sp_detector import SmoothPursuitDetector
 from sp_tool.arff_helper import ArffHelper
-from sp_tool import util
+from sp_tool.util import ParameterBunch, pretty_string
 
 # This file comprises a very flexible console interface (see `python run_detection.py -h`)
 # as well as a programmatic interface (through a pair of function calls: create_parameters() and run_detection() ).
@@ -202,7 +202,7 @@ def create_parameters(config_file=None,
                           [config_file, input_folder, gaze_file_pattern, output_folder]))
     args_dict.update({key: value for key, value in dict_candidates if value is not None})
 
-    bunch = util.ParameterBunch(args_dict)
+    bunch = ParameterBunch(args_dict)
     return create_parameters_from_args(bunch, ignore_unused_arguments=ignore_unused_arguments)
 
 # The following methods are less insightful, and present more or less the internal structure of parameters we create
@@ -617,5 +617,5 @@ if __name__ == '__main__':
     args = parse_args()
     parameters = create_parameters_from_args(args)
     if parameters['GeneralArguments'].get('verbose'):
-        print(util.pretty_string(parameters), file=sys.stderr)
+        print(pretty_string(parameters), file=sys.stderr)
     run_detection(parameters)

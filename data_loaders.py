@@ -6,7 +6,7 @@ from collections import OrderedDict
 import inspect
 
 from sp_tool.arff_helper import ArffHelper
-import util
+from sp_tool.util import add_eye_movement_attribute
 
 EM_VALUE_MAPPING_DEFAULT = {
     0: 'UNKNOWN',
@@ -70,7 +70,7 @@ def load_ARFF_as_arff_object(fname, eye_movement_type_attribute=None, eye_moveme
             'Attribute {} is not present in the arff structure from file {}'.format(eye_movement_type_attribute,
                                                                                     fname)
         # add the dedicated eye movement type column
-        arff_obj = util.add_eye_movement_attribute(arff_obj)
+        arff_obj = add_eye_movement_attribute(arff_obj)
         if eye_movement_type_mapping_dict is None:
             # Check if the column is not yet of the right format.
             # Only need to do this if the attribute is numerical, not categorical!
